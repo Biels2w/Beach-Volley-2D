@@ -6,14 +6,14 @@ O projeto nasce como uma experiência de aprendizado: começar do zero, conhecer
 
 ## Estado atual
 
-O projeto está na fase de planejamento, antes da criação dos arquivos de código.
+O projeto está na fase inicial de desenvolvimento.
 
-- A ideia inicial é um jogo de vôlei de praia 2 contra 2 em ambiente 2D.
+- A ideia é um jogo de vôlei de praia 2 contra 2 em ambiente 2D.
 - O Pygame já foi instalado.
-- Nenhum arquivo de código foi criado.
-- Ainda não há protótipo executável, funcionalidades implementadas ou testes disponíveis.
+- Foi criado um arquivo chamado `main.py` que abre uma janela de 1200 × 700 pixels com fundo cor de areia e a fecha corretamente.
+- Há um protótipo executável, mas ainda não há quadra, rede, jogadores, bola, pontuação ou testes automatizados..
 
-Esta documentação registra o ponto de partida. Os recursos e as etapas abaixo são propostas de desenvolvimento, e não funcionalidades já disponíveis.
+Esta documentação registra etapas de desenvolvimento gradual. São apresentados propostas de desenvolvimento, e não funcionalidades já disponíveis, exceto o que está marcado como concluído no roadmap.
 
 ## Tecnologias previstas
 
@@ -21,7 +21,7 @@ Esta documentação registra o ponto de partida. Os recursos e as etapas abaixo 
 | --- | --- | --- |
 | Python | Linguagem escolhida para desenvolver o jogo | Versão a confirmar |
 | Pygame | Biblioteca escolhida para construir o jogo 2D | Versão a confirmar |
-| GitHub | Espaço previsto para documentar e acompanhar o desenvolvimento | Repositório e endereço a confirmar |
+| GitHub | Espaço previsto para documentar e acompanhar o desenvolvimento | Repositório criado |
 
 
 ## Funcionalidades planejadas
@@ -49,8 +49,8 @@ As etapas estão organizadas para permitir aprendizado e validação gradual. N�
 
 ### 2. Criar a base do jogo
 
-- [ ] Criar os primeiros arquivos de código.
-- [ ] Abrir uma janela e implementar o ciclo principal do jogo.
+- [x] Criar os primeiros arquivos de código.
+- [x] Abrir uma janela e implementar o ciclo principal do jogo.
 - [ ] Desenhar uma quadra e uma rede com formas simples.
 - [ ] Exibir um personagem e permitir sua movimentação.
 
@@ -78,19 +78,29 @@ As etapas estão organizadas para permitir aprendizado e validação gradual. N�
 
 ## Preparação e execução
 
-Python e Pygame são as tecnologias escolhidas para o desenvolvimento. As versões utilizadas e os requisitos de compatibilidade ainda não foram registrados.
+O desenvolvimento usa Python 3.12 e Pygame 2.6.1. Em Windows, os comandos usados para conferir as versões instaladas são:
 
-Como não há código ou ponto de entrada, o jogo ainda não pode ser executado. Os comandos de instalação e execução serão adicionados quando houver arquivos e um procedimento validado. Também não há configurações ou variáveis de ambiente definidas.
+```bash
+py -3.12 --version
+py -3.12 -m pip show pygame
+```
+
+Para executar o jogo, dentro da pasta do projeto:
+
+```bash
+py -3.12 main.py
+```
+
+Por enquanto, o programa apenas abre uma janela com fundo cor de areia, que pode ser fechada no botão X. Não há configurações nem variáveis de ambiente definidas, e os requisitos de compatibilidade com outros sistemas ainda não foram verificados.
 
 ## Estrutura do projeto
 
-Nesta etapa, o único arquivo entregue é esta documentação:
-
 ```text
-README.md — descrição da ideia, estado inicial, roadmap e diário de desenvolvimento
+main.py    — abre a janela do jogo e executa o laço principal
+README.md  — descrição da ideia, estado atual, roadmap e diário de desenvolvimento
 ```
 
-A organização de código e recursos será documentada conforme os arquivos forem criados.
+A organização de código e recursos será documentada conforme novos arquivos forem criados.
 
 ## Diário de desenvolvimento
 
@@ -108,4 +118,22 @@ O diário acompanha o que foi realizado, as dificuldades encontradas e as decis�
 **Contexto de aprendizado:** Iniciando sem conhecimento prévio de Pygame e pretende desenvolver o projeto com orientação gradual.
 
 **Próximo passo proposto:** definir os controles e as regras mínimas do primeiro protótipo.
+
+### Primeira janela com Pygame
+
+**Realizado:**
+
+- Criação do `main.py` com a primeira janela de 1200 × 700 pixels. Escolhi um tamanho maior que o sugerido (960 × 540) pois me agradou mais.
+- Cor de fundo em tom de areia, guardada na variável `cor_areia`, com o valor `(203, 189, 147)`.
+- Título da janela: "Beach Volley 2D — Primeiro protótipo".
+- Laço principal com tratamento do evento `pygame.QUIT` e limite de aproximadamente 60 repetições por segundo.
+- Teste manual: a janela abre e fecha corretamente ao clicar no X, sem erros no terminal.
+
+**Aprendizados:**
+
+- O `while rodando` mantém a janela aberta e atende os eventos até o usuário fechar. Sem ele, o programa executaria o código e encerraria logo em seguida.
+- `tela.fill(...)` pinta a tela em memória, e `pygame.display.flip()` apresenta na janela o que foi preparado.
+- `pygame.quit()` fica depois do laço: ele desliga os módulos do Pygame, então só pode ser chamado quando o jogo não precisa mais deles. Dentro do laço, causaria erro na volta seguinte.
+
+**Próximo passo proposto:** definir os controles e as regras mínimas e desenhar a quadra e a rede com formas simples.
 
