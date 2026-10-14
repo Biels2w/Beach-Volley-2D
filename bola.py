@@ -1,17 +1,25 @@
 def mover_bola(bola_x, bola_y,velocidade_bola_x, velocidade_bola_y, gravidade_bola, 
-                chao_y, raio_bola, elasticidade_bola, largura):
+                chao_y, raio_bola, elasticidade_bola, largura, bola_parada, atrito_bola):
 
 # movimento vertical
-    bola_y += velocidade_bola_y
-    velocidade_bola_y += gravidade_bola
-
-# movimento horizontal
-    bola_x += velocidade_bola_x
+    if not bola_parada:
+        bola_y += velocidade_bola_y
+        velocidade_bola_y += gravidade_bola
 
 # colisão da bola com o chão
-    if bola_y + raio_bola >= chao_y:
-        bola_y = chao_y - (raio_bola - 2)
-        velocidade_bola_y = -abs(velocidade_bola_x) * elasticidade_bola
+    if not bola_parada and bola_y + raio_bola >= chao_y and velocidade_bola_y > 0:
+        bola_y = chao_y - raio_bola
+
+        velocidade_bola_x *= atrito_bola
+        velocidade_bola_y = -velocidade_bola_y * elasticidade_bola
+
+        if abs(velocidade_bola_y) < 1:
+            velocidade_bola_y = 0
+            velocidade_bola_x = 0
+            bola_parada = True
+
+    # movimento horizontal
+    bola_x += velocidade_bola_x
 
     #colisão com a parede direira
     if bola_x + raio_bola >= largura:
@@ -24,6 +32,6 @@ def mover_bola(bola_x, bola_y,velocidade_bola_x, velocidade_bola_y, gravidade_bo
         velocidade_bola_x = abs(velocidade_bola_x)
 
 
-    return bola_x, bola_y, velocidade_bola_x, velocidade_bola_y
+    return bola_x, bola_y, velocidade_bola_x, velocidade_bola_y, bola_parada
 
 

@@ -73,18 +73,20 @@ limite_direito_rede = (largura //2 - largura_rede // 2) - largura_jogador
 # limites estabelecidos pela rede e a largura do jogador
 
 #===================================================
+#bola
 
+bola_parada = False
 raio_bola = 25
 
 bola_x = 300
 bola_y = 200
 
 velocidade_bola_y = 0
-velocidade_bola_x = 4
+velocidade_bola_x = 2
 gravidade_bola = 0.5
 
-elasticidade_bola = 0.4 #multiplicador de altura dos quiques da bola
-
+elasticidade_bola = 0.35 #multiplicador de altura dos quiques da bola
+atrito_bola = 0.85 #conservador da velocidade pós bater na areia
 #===================================================
 
 tela = pygame.display.set_mode((largura, altura)) #define o tamanho da janela.
@@ -104,9 +106,10 @@ while rodando:
 #=====================================================================================================
 #Fisica bola
 
-    bola_x, bola_y,velocidade_bola_x, velocidade_bola_y = mover_bola(
+    bola_x, bola_y,velocidade_bola_x, velocidade_bola_y, bola_parada = mover_bola(
     bola_x, bola_y, velocidade_bola_x, velocidade_bola_y, 
-    gravidade_bola, chao_y, raio_bola, elasticidade_bola, largura
+    gravidade_bola, chao_y, raio_bola, elasticidade_bola, largura, bola_parada,
+    atrito_bola
     )
 
 #=====================================================================================================
