@@ -4,6 +4,7 @@
 
 import pygame
 from jogadores import mover_jogador, pulo_jogador, trocar_jogador, moveimentacao_ia
+from bola import mover_bola
 
 pygame.init()
 
@@ -73,6 +74,18 @@ limite_direito_rede = (largura //2 - largura_rede // 2) - largura_jogador
 
 #===================================================
 
+raio_bola = 25
+
+bola_x = 300
+bola_y = 200
+
+velocidade_bola_y = 0
+velocidade_bola_x = 4
+gravidade_bola = 0.5
+
+elasticidade_bola = 0.4 #multiplicador de altura dos quiques da bola
+
+#===================================================
 
 tela = pygame.display.set_mode((largura, altura)) #define o tamanho da janela.
 pygame.display.set_caption("Beach Volley 2D — Primeiro protótipo") #define o título da janela.
@@ -84,12 +97,17 @@ while rodando:
     for evento in pygame.event.get():
         if evento.type == pygame.KEYDOWN:
             if evento.key == pygame.K_TAB:
-                jogador_ativo = trocar_jogador(jogador_ativo)
-                print (jogador_ativo)
-
+                jogador_ativo = trocar_jogador(jogador_ativo) #troca o jogador controlado
 
         if evento.type == pygame.QUIT:
             rodando = False
+#=====================================================================================================
+#Fisica bola
+
+    bola_x, bola_y,velocidade_bola_x, velocidade_bola_y = mover_bola(
+    bola_x, bola_y, velocidade_bola_x, velocidade_bola_y, 
+    gravidade_bola, chao_y, raio_bola, elasticidade_bola, largura
+    )
 
 #=====================================================================================================
 #Capta teclas
@@ -161,10 +179,16 @@ while rodando:
         (jogador_x_1, jogador_y_1, largura_jogador, altura_jogador)
     )
 
-    pygame.draw.rect( #jogador
+    pygame.draw.rect( #jogador 2
         tela, cor_azul,
         (jogador_x_2, jogador_y_2, largura_jogador, altura_jogador)
     )
+
+    pygame.draw.circle( #bola
+        tela, cor_branca, 
+        (round(bola_x), round(bola_y)),
+        raio_bola
+        )
 
 
 #=====================================================================================================
