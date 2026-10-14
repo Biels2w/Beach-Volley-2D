@@ -6,21 +6,16 @@ O projeto nasce como uma experiência de aprendizado: começar do zero, conhecer
 
 ## Estado atual
 
-O projeto está na fase inicial de desenvolvimento.
+**Protótipo de movimentação do primeiro jogador concluído.** Já é possível abrir a janela, visualizar o cenário e controlar um personagem no lado esquerdo da quadra.
 
-- A ideia é um jogo de vôlei de praia 2 contra 2 em ambiente 2D.
-- O Pygame já foi instalado.
-- Foi criado um arquivo chamado `main.py` que abre uma janela de 1200 × 700 pixels com céu azul, chão de areia, uma rede centralizada e dois jogadores representados por retângulos vermelhos.
-- Os dois jogadores estão parados, com posições horizontais independentes e pés alinhados ao chão. Ainda não há movimentação, pulos, bola, colisões, pontuação, adversários controlados pelo computador ou testes automatizados..
-
-O protótipo atual permite visualizar o cenário e os personagens provisórios. Ainda não é possível jogar uma partida. Os recursos futuros estão separados das funcionalidades implementadas.
+**Ainda não implementado:** bola, adversários, movimentação independente de vários jogadores, colisões com a bola, ações de vôlei, pontuação e regras de partida.
 
 ## Tecnologias previstas
 
 | Tecnologia | Papel no projeto | Situação |
 | --- | --- | --- |
-| Python | Linguagem escolhida para desenvolver o jogo | Versão a confirmar |
-| Pygame | Biblioteca escolhida para construir o jogo 2D | Versão a confirmar |
+| Python | Linguagem escolhida para desenvolver o jogo | 3.12 |
+| Pygame | Biblioteca escolhida para construir o jogo 2D | 2.6.1  |
 | GitHub | Espaço previsto para documentar e acompanhar o desenvolvimento | Repositório criado |
 
 
@@ -52,7 +47,7 @@ As etapas estão organizadas para permitir aprendizado e validação gradual. N�
 - [x] Criar os primeiros arquivos de código.
 - [x] Abrir uma janela e implementar o ciclo principal do jogo.
 - [x] Desenhar uma quadra e uma rede com formas simples.
-- [ ] Exibir um personagem e permitir sua movimentação.
+- [x] Exibir um personagem e permitir sua movimentação.
 
 ### 3. Experimentar a interação com a bola
 
@@ -134,6 +129,7 @@ O diário acompanha o que foi realizado, as dificuldades encontradas e as decis�
 - O `while rodando` mantém a janela aberta e atende os eventos até o usuário fechar. Sem ele, o programa executaria o código e encerraria logo em seguida.
 - `tela.fill(...)` pinta a tela em memória, e `pygame.display.flip()` apresenta na janela o que foi preparado.
 - `pygame.quit()` fica depois do laço: ele desliga os módulos do Pygame, então só pode ser chamado quando o jogo não precisa mais deles. Dentro do laço, causaria erro na volta seguinte.
+
 - A origem das coordenadas fica no canto superior esquerdo: `x` aumenta para a direita e `y` aumenta para baixo.
 - Um retângulo é descrito por posição horizontal, posição vertical, largura e altura.
 - Posição e tamanho são informações diferentes: a base de um retângulo fica em `y + altura_do_retangulo`.
@@ -141,5 +137,18 @@ O diário acompanha o que foi realizado, as dificuldades encontradas e as decis�
 - Variáveis separadas permitem alterar a posição de um jogador sem alterar a do outro.
 - As formas simples são representações provisórias para aprender e testar as mecânicas antes da pixel art.
 
-**Próximo passo proposto:** definir os controles e as regras.
+- `pygame.key.get_pressed()` permite verificar continuamente quais teclas estão pressionadas.
+- O `main.py` pode importar funções de outro arquivo com `from jogadores import ...`.
+- Para limitar a movimentação, é necessário considerar a largura do personagem, e não apenas a posição `x`.
+- `min()` e `max()` corrigem posições que passariam dos limites mesmo quando o movimento avança vários pixels por atualização.
+
+- Diminuir `jogador_y` faz o personagem subir; aumentar faz ele descer.
+- Uma `velocidade_y` negativa inicia a subida, e a gravidade aumenta essa velocidade gradualmente até começar a descida.
+- Velocidade vertical igual a zero no ponto mais alto do salto não significa que o personagem esteja no chão.
+- A posição do chão é calculada com `chao_y - altura_jogador`, servindo como limite inferior para o personagem.
+- A função de pulo devolve dois valores (`jogador_y` e `velocidade_y`), que precisam ser recebidos no `main.py`.
+- O bloco que aplica a gravidade deve executar em todas as atualizações, e não apenas enquanto a tecla de pulo está pressionada.
+- Na implementação atual, manter a tecla pressionada faz o personagem iniciar outro salto ao aterrissar; ele não reinicia o pulo no meio do ar.
+
+**Próximo passo proposto:** criar regras, posições e velocidades independentes para os jogadores, preparando o protótipo para mais personagens em quadra.
 
