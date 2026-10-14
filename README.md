@@ -10,10 +10,10 @@ O projeto está na fase inicial de desenvolvimento.
 
 - A ideia é um jogo de vôlei de praia 2 contra 2 em ambiente 2D.
 - O Pygame já foi instalado.
-- Foi criado um arquivo chamado `main.py` que abre uma janela de 1200 × 700 pixels com fundo cor de areia e a fecha corretamente.
-- Há um protótipo executável, mas ainda não há quadra, rede, jogadores, bola, pontuação ou testes automatizados..
+- Foi criado um arquivo chamado `main.py` que abre uma janela de 1200 × 700 pixels com céu azul, chão de areia, uma rede centralizada e dois jogadores representados por retângulos vermelhos.
+- Os dois jogadores estão parados, com posições horizontais independentes e pés alinhados ao chão. Ainda não há movimentação, pulos, bola, colisões, pontuação, adversários controlados pelo computador ou testes automatizados..
 
-Esta documentação registra etapas de desenvolvimento gradual. São apresentados propostas de desenvolvimento, e não funcionalidades já disponíveis, exceto o que está marcado como concluído no roadmap.
+O protótipo atual permite visualizar o cenário e os personagens provisórios. Ainda não é possível jogar uma partida. Os recursos futuros estão separados das funcionalidades implementadas.
 
 ## Tecnologias previstas
 
@@ -45,13 +45,13 @@ As etapas estão organizadas para permitir aprendizado e validação gradual. N�
 - [x] Escolher a perspectiva visual do jogo.
 - [ ] Definir os controles e quais jogadores serão controlados pelo usuário.
 - [ ] Estabelecer regras simplificadas e critérios de pontuação.
-- [ ] Registrar as versões de Python e Pygame utilizadas.
+- [x] Registrar as versões de Python e Pygame utilizadas.
 
 ### 2. Criar a base do jogo
 
 - [x] Criar os primeiros arquivos de código.
 - [x] Abrir uma janela e implementar o ciclo principal do jogo.
-- [ ] Desenhar uma quadra e uma rede com formas simples.
+- [x] Desenhar uma quadra e uma rede com formas simples.
 - [ ] Exibir um personagem e permitir sua movimentação.
 
 ### 3. Experimentar a interação com a bola
@@ -72,7 +72,7 @@ As etapas estão organizadas para permitir aprendizado e validação gradual. N�
 
 - [ ] Revisar controles, colisões e regras da partida.
 - [ ] Melhorar a apresentação visual conforme as necessidades do protótipo.
-- [ ] Documentar a estrutura real dos arquivos e as dependências utilizadas.
+- [x] Documentar a estrutura real dos arquivos e as dependências utilizadas.
 - [ ] Incluir instruções verificadas de instalação e execução.
 - [ ] Registrar os testes realizados e as limitações conhecidas.
 
@@ -134,6 +134,12 @@ O diário acompanha o que foi realizado, as dificuldades encontradas e as decis�
 - O `while rodando` mantém a janela aberta e atende os eventos até o usuário fechar. Sem ele, o programa executaria o código e encerraria logo em seguida.
 - `tela.fill(...)` pinta a tela em memória, e `pygame.display.flip()` apresenta na janela o que foi preparado.
 - `pygame.quit()` fica depois do laço: ele desliga os módulos do Pygame, então só pode ser chamado quando o jogo não precisa mais deles. Dentro do laço, causaria erro na volta seguinte.
+- A origem das coordenadas fica no canto superior esquerdo: `x` aumenta para a direita e `y` aumenta para baixo.
+- Um retângulo é descrito por posição horizontal, posição vertical, largura e altura.
+- Posição e tamanho são informações diferentes: a base de um retângulo fica em `y + altura_do_retangulo`.
+- A ordem do desenho importa: pintar o fundo depois dos objetos apaga o que foi desenhado.
+- Variáveis separadas permitem alterar a posição de um jogador sem alterar a do outro.
+- As formas simples são representações provisórias para aprender e testar as mecânicas antes da pixel art.
 
-**Próximo passo proposto:** definir os controles e as regras mínimas e desenhar a quadra e a rede com formas simples.
+**Próximo passo proposto:** definir os controles e as regras.
 
