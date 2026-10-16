@@ -51,8 +51,8 @@ As etapas estão organizadas para permitir aprendizado e validação gradual. N�
 
 ### 3. Experimentar a interação com a bola
 
-- [ ] Adicionar a bola e seu movimento.
-- [ ] Implementar colisões com o chão, a rede e os jogadores.
+- [x] Adicionar a bola e seu movimento.
+- [x] Implementar colisões com o chão, a rede e os jogadores.
 - [ ] Permitir a interação entre um jogador e a bola.
 - [ ] Ajustar o comportamento do protótipo a partir de testes manuais.
 

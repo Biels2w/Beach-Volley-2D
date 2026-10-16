@@ -7,13 +7,13 @@ def trocar_jogador(jogador_ativo):
 
 #===================================================================================
 
-def mover_jogador(posicao_x_1, velocidade_jogador, direcao):
+def mover_jogador(posicao_x, velocidade_jogador, direcao):
     if direcao == "direita":
-        posicao_x_1 += velocidade_jogador
+        posicao_x += velocidade_jogador
     elif direcao == "esquerda":
-        posicao_x_1 -= velocidade_jogador
+        posicao_x -= velocidade_jogador
 
-    return posicao_x_1
+    return posicao_x
 
 #===================================================================================
 
@@ -33,7 +33,7 @@ def pulo_jogador(jogador_y, velocidade_y, gravidade, chao_y, altura_jogador):
 
 #===================================================================================
 
-def moveimentacao_ia(posicao_x, destino_x, velocidade):
+def movimentacao_ia(posicao_x, destino_x, velocidade):
     if posicao_x < destino_x:
         posicao_x += velocidade
         posicao_x = min(posicao_x, destino_x)
