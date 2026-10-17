@@ -39,11 +39,8 @@ def mover_bola(bola_x, bola_y,velocidade_bola_x, velocidade_bola_y, gravidade_bo
 
 def colisao_rede(bola_x, bola_y, velocidade_bola_x, velocidade_bola_y,
                 raio_bola, rede_esquerda, rede_direita, rede_y,
-                altura_rede, elasticidade_bola, bola_parada):
-
-    # Guarda a posição anterior da bola
-    anterior_x = bola_x - velocidade_bola_x
-    anterior_y = bola_y - velocidade_bola_y
+                altura_rede, elasticidade_bola, bola_parada, 
+                anterior_x, anterior_y):
 
     rede_inferior = rede_y + altura_rede
 
@@ -81,3 +78,9 @@ def colisao_rede(bola_x, bola_y, velocidade_bola_x, velocidade_bola_y,
 
     return bola_x, bola_y, velocidade_bola_x, velocidade_bola_y, bola_parada
 
+#============================================================================================
+#Reiniciar bola
+
+def reiniciar_bola(bola_x_inicial, bola_y_inicial, velocidade_bola_x_inicial, velocidade_bola_y_inicial, bola_parada):
+
+    return bola_x_inicial, bola_y_inicial, velocidade_bola_x_inicial, velocidade_bola_y_inicial, bola_parada

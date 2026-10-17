@@ -6,9 +6,9 @@ O projeto nasce como uma experiência de aprendizado: começar do zero, conhecer
 
 ## Estado atual
 
-**Protótipo de movimentação do primeiro jogador concluído.** Já é possível abrir a janela, visualizar o cenário e controlar um personagem no lado esquerdo da quadra.
+**Protótipo com dois jogadores, seleção e física básica da bola.** Já é possível abrir a janela de 1200 × 700 pixels, visualizar o céu, a areia e a rede, alternar o controle entre dois personagens no lado esquerdo da quadra e movimentá-los ou fazê-los pular. Uma barra amarela menor que a cabeça fica centralizada acima do jogador selecionado e acompanha seus movimentos. O personagem não selecionado retorna à sua posição horizontal inicial. A bola tem gravidade, quiques e colisões com o chão, as paredes laterais e a rede, ainda sujeitas a ajustes.
 
-**Ainda não implementado:** bola, adversários, movimentação independente de vários jogadores, colisões com a bola, ações de vôlei, pontuação e regras de partida.
+**Ainda não implementado:** interação entre jogadores e bola, reinício da bola por tecla, equipe adversária, ataques, bloqueios, pontuação, regras de partida e gráficos em pixel art. O retorno do companheiro à posição inicial é um comportamento automático simples; ainda não há adversários controlados pelo computador.
 
 ## Tecnologias previstas
 
@@ -25,11 +25,14 @@ O conceito central é uma partida de vôlei de praia com duas equipes de dois jo
 
 - Representação de uma quadra de praia, rede, bola e quatro jogadores em 2D.
 - Movimentação dos jogadores e interação com a bola.
-- Movimento da bola e detecção de colisões.
+- Aperfeiçoamento da física da bola e das colisões, incluindo o contato com os jogadores.
 - Identificação de pontos e exibição do placar.
 - Início e reinício de uma partida.
+- Adversários controlados pelo computador, ataques e bloqueios.
+- Personagens e cenário em pixel art, com uma coroa no lugar do indicador provisório.
 
-Controles, regras, perspectiva visual e forma de controlar os quatro jogadores ainda precisam ser definidos. A presença de quatro personagens não implica suporte já definido a quatro participantes humanos, inteligência artificial ou partidas pela internet.
+A perspectiva escolhida é lateral. O protótipo já usa A/D para movimentação, W ou espaço para pular e Tab para alternar entre os dois jogadores. As regras da partida e os controles das futuras ações de vôlei ainda precisam ser definidos. Adversários controlados pelo computador estão planejados; partidas pela internet não fazem parte do escopo definido até aqui.
+
 
 ## Roadmap sugerido
 
@@ -38,7 +41,7 @@ As etapas estão organizadas para permitir aprendizado e validação gradual. N�
 ### 1. Definir o primeiro protótipo
 
 - [x] Escolher a perspectiva visual do jogo.
-- [ ] Definir os controles e quais jogadores serão controlados pelo usuário.
+- [x] Definir os controles e quais jogadores serão controlados pelo usuário.
 - [ ] Estabelecer regras simplificadas e critérios de pontuação.
 - [x] Registrar as versões de Python e Pygame utilizadas.
 
@@ -46,8 +49,10 @@ As etapas estão organizadas para permitir aprendizado e validação gradual. N�
 
 - [x] Criar os primeiros arquivos de código.
 - [x] Abrir uma janela e implementar o ciclo principal do jogo.
-- [x] Desenhar uma quadra e uma rede com formas simples.
-- [x] Exibir um personagem e permitir sua movimentação.
+- [x] Desenhar o chão de areia e a rede com formas simples.
+- [x] Exibir dois personagens e permitir sua movimentação e seus pulos.
+- [x] Identificar o jogador selecionado com uma barra centralizada.
+- [x] Iniciar o pulo por pressionamento, verificando o chão a cada atualização.
 
 ### 3. Experimentar a interação com a bola
 
@@ -86,13 +91,16 @@ Para executar o jogo, dentro da pasta do projeto:
 py -3.12 main.py
 ```
 
-Por enquanto, o programa apenas abre uma janela com fundo cor de areia, que pode ser fechada no botão X. Não há configurações nem variáveis de ambiente definidas, e os requisitos de compatibilidade com outros sistemas ainda não foram verificados.
+
+O programa abre o cenário com dois jogadores e uma bola. Use A/D para mover o jogador selecionado, W ou espaço para iniciar um pulo e Tab para trocar o jogador controlado. O pulo é permitido no chão e exige um novo pressionamento após cada salto. Para encerrar, clique no X da janela. A bola ainda não interage com os jogadores e pode parar no chão ou no topo da rede; ainda não há tecla para reiniciá-la. Não há configurações nem variáveis de ambiente definidas, e os requisitos de compatibilidade com outros sistemas ainda não foram verificados.
 
 ## Estrutura do projeto
 
 ```text
-main.py    — abre a janela do jogo e executa o laço principal
-README.md  — descrição da ideia, estado atual, roadmap e diário de desenvolvimento
+main.py       — abre a janela, trata eventos, integra a lógica e desenha o protótipo
+jogadores.py  — movimentação, pulos, troca de jogador e retorno à posição inicial
+bola.py       — movimento da bola e colisões com o cenário
+README.md     — descrição da ideia, estado atual, roadmap e diário de desenvolvimento
 ```
 
 A organização de código e recursos será documentada conforme novos arquivos forem criados.
@@ -148,7 +156,12 @@ O diário acompanha o que foi realizado, as dificuldades encontradas e as decis�
 - A posição do chão é calculada com `chao_y - altura_jogador`, servindo como limite inferior para o personagem.
 - A função de pulo devolve dois valores (`jogador_y` e `velocidade_y`), que precisam ser recebidos no `main.py`.
 - O bloco que aplica a gravidade deve executar em todas as atualizações, e não apenas enquanto a tecla de pulo está pressionada.
-- Na implementação atual, manter a tecla pressionada faz o personagem iniciar outro salto ao aterrissar; ele não reinicia o pulo no meio do ar.
+- Na primeira implementação do pulo, manter a tecla pressionada fazia o personagem iniciar outro salto ao aterrissar. Esse comportamento foi alterado. Início do pulo transferido para o evento `KEYDOWN`, mantendo A/D na consulta contínua de teclas.
+- Consultar uma tecla mantida pressionada é diferente de tratar seu pressionamento com `KEYDOWN`.
+- Cada lado de uma condição com `or` precisa representar a comparação desejada.
+- Uma variável booleana guarda o resultado calculado naquele momento; ela precisa ser recalculada para refletir mudanças na posição.
+- A ordem das atualizações influencia o desenho: o indicador deve usar as posições depois dos movimentos e pulos.
 
-**Próximo passo proposto:** criar regras, posições e velocidades independentes para os jogadores, preparando o protótipo para mais personagens em quadra.
+
+**Próximo passo proposto:** criar regras, implementar o reinício da bola com R, antes de revisar a posição anterior usada nas colisões com a rede e adicionar contato entre a bola e os jogadores.
 

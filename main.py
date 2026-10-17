@@ -4,7 +4,7 @@
 
 import pygame
 from jogadores import mover_jogador, pulo_jogador, trocar_jogador, movimentacao_ia
-from bola import mover_bola, colisao_rede
+from bola import mover_bola, colisao_rede, reiniciar_bola
 
 pygame.init()
 
@@ -105,11 +105,16 @@ rede_inferior = rede_y + altura_rede
 bola_parada = False
 raio_bola = 25
 
-bola_x = 300
-bola_y = 200
+bola_x_inicial = 300
+bola_y_inicial = 200
+velocidade_bola_y_inicial = 0
+velocidade_bola_x_inicial = 2
 
-velocidade_bola_y = 0
-velocidade_bola_x = 2
+bola_x = bola_x_inicial
+bola_y = bola_y_inicial
+
+velocidade_bola_y = velocidade_bola_y_inicial
+velocidade_bola_x = velocidade_bola_x_inicial
 gravidade_bola = 0.5
 
 elasticidade_bola = 0.35 #multiplicador de altura(y) pós colisão
@@ -133,6 +138,8 @@ while rodando:
             if evento.key == pygame.K_TAB:
                 jogador_ativo = trocar_jogador(jogador_ativo) #troca o jogador controlado
 
+#===================================================================================
+
             if evento.key == pygame.K_SPACE or evento.key == pygame.K_w:
                 if jogador_ativo == 1 and no_chao_1:
                     velocidade_y_1 = forca_pulo
@@ -140,10 +147,19 @@ while rodando:
                 elif jogador_ativo == 2 and no_chao_2:
                     velocidade_y_2 = forca_pulo
 
+#===================================================================================
+
+            if evento.key == pygame.K_r:
+                bola_x, bola_y, velocidade_bola_x, velocidade_bola_y, bola_parada = reiniciar_bola(bola_x_inicial, bola_y_inicial, 
+    velocidade_bola_x_inicial, velocidade_bola_y_inicial, False
+    )
 
         if evento.type == pygame.QUIT:
             rodando = False
 #=====================================================================================================
+    bola_x_anterior = bola_x
+    bola_y_anterior = bola_y
+
 #Fisica bola
 
     bola_x, bola_y,velocidade_bola_x, velocidade_bola_y, bola_parada = mover_bola(
@@ -156,7 +172,7 @@ while rodando:
 
     bola_x, bola_y, velocidade_bola_x, velocidade_bola_y, bola_parada = colisao_rede(
         bola_x, bola_y, velocidade_bola_x, velocidade_bola_y, raio_bola, rede_esquerda, 
-        rede_direita, rede_y, altura_rede, elasticidade_bola, bola_parada
+        rede_direita, rede_y, altura_rede, elasticidade_bola, bola_parada, bola_x_anterior, bola_y_anterior
     )
 
 #=====================================================================================================
@@ -209,6 +225,7 @@ while rodando:
     else:
         identificador_x = (jogador_x_2 + largura_jogador // 2 - largura_identificador // 2)
         identificador_y = jogador_y_2 - altura_identificador - espaco
+#=====================================================================================================
 
 
 
