@@ -4,7 +4,7 @@
 
 import pygame
 from jogadores import mover_jogador, pulo_jogador, trocar_jogador, movimentacao_ia
-from bola import mover_bola, colisao_rede, reiniciar_bola
+from bola import mover_bola, colisao_rede, reiniciar_bola, colisao_jogador
 
 pygame.init()
 
@@ -133,6 +133,10 @@ while rodando:
     no_chao_2 = jogador_y_2 == chao_y - altura_jogador
     #Atualiza se o jogador está no chão
 
+    jogador_y_1_anterior = jogador_y_1
+    jogador_y_2_anterior = jogador_y_2
+    #Guarda as posições antes de atualizar o movimento
+
     for evento in pygame.event.get():
         if evento.type == pygame.KEYDOWN:
             if evento.key == pygame.K_TAB:
@@ -215,6 +219,20 @@ while rodando:
 
     jogador_y_1, velocidade_y_1 = pulo_jogador(jogador_y_1, velocidade_y_1, gravidade, chao_y, altura_jogador)
     jogador_y_2, velocidade_y_2 = pulo_jogador(jogador_y_2, velocidade_y_2, gravidade, chao_y, altura_jogador)
+
+    # Contato da bola com o jogador 1.
+    bola_y, velocidade_bola_y, bola_parada = colisao_jogador(
+        bola_x, bola_y, velocidade_bola_y, raio_bola,
+        bola_y_anterior, jogador_x_1, jogador_y_1,
+        largura_jogador, bola_parada, jogador_y_1_anterior
+    )
+
+    # Contato da bola com o jogador 2.
+    bola_y, velocidade_bola_y, bola_parada = colisao_jogador(
+        bola_x, bola_y, velocidade_bola_y, raio_bola,
+        bola_y_anterior, jogador_x_2, jogador_y_2,
+        largura_jogador, bola_parada, jogador_y_2_anterior
+    )
 
 #=====================================================================================================
 #identificador jogador
