@@ -108,7 +108,7 @@ raio_bola = 25
 bola_x_inicial = 300
 bola_y_inicial = 200
 velocidade_bola_y_inicial = 0
-velocidade_bola_x_inicial = 2
+velocidade_bola_x_inicial = 0
 
 bola_x = bola_x_inicial
 bola_y = bola_y_inicial
@@ -221,16 +221,16 @@ while rodando:
     jogador_y_2, velocidade_y_2 = pulo_jogador(jogador_y_2, velocidade_y_2, gravidade, chao_y, altura_jogador)
 
     # Contato da bola com o jogador 1.
-    bola_y, velocidade_bola_y, bola_parada = colisao_jogador(
-        bola_x, bola_y, velocidade_bola_y, raio_bola,
-        bola_y_anterior, jogador_x_1, jogador_y_1,
+    bola_y, velocidade_bola_x, velocidade_bola_y, bola_parada = colisao_jogador(
+        bola_x, bola_y, velocidade_bola_x, velocidade_bola_y,
+        raio_bola, bola_y_anterior, jogador_x_1, jogador_y_1,
         largura_jogador, bola_parada, jogador_y_1_anterior
     )
 
     # Contato da bola com o jogador 2.
-    bola_y, velocidade_bola_y, bola_parada = colisao_jogador(
-        bola_x, bola_y, velocidade_bola_y, raio_bola,
-        bola_y_anterior, jogador_x_2, jogador_y_2,
+    bola_y, velocidade_bola_x, velocidade_bola_y, bola_parada = colisao_jogador(
+        bola_x, bola_y, velocidade_bola_x, velocidade_bola_y,
+        raio_bola, bola_y_anterior, jogador_x_2, jogador_y_2,
         largura_jogador, bola_parada, jogador_y_2_anterior
     )
 
