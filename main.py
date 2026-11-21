@@ -14,6 +14,12 @@ posicao_inicial_1 = 200
 posicao_inicial_2 = 400
 
 velocidade_ia = 3
+
+#===================================================
+
+# Fonte padrão do Pygame, com tamanho 28.
+fonte_painel = pygame.font.Font(None, 28)
+
 #===================================================
 #tamanho_tela
 
@@ -283,6 +289,16 @@ while rodando:
         largura_identificador, altura_identificador)
     )
 
+#=====================================================================================================
+
+    # Monta a mensagem usando o número do jogador selecionado.
+    mensagem = f"Jogador ativo: {jogador_ativo}"
+    
+    # Transforma a mensagem em uma imagem de texto.
+    imagem_texto = fonte_painel.render(mensagem, True, cor_branca)
+
+    # Desenha essa imagem a 20 pixels da esquerda e do topo.
+    tela.blit(imagem_texto, (20, 20))
 
 #=====================================================================================================
 
